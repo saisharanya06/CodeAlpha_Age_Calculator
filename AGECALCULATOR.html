@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Age Calculator</title>
+<style>
+    body {
+        font-family: Georgia;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: aqua;
+    }
+    form {
+        margin-top: 20px;
+    }
+    #result {
+        margin-top: 20px;
+        font-size: 1.5em;
+    }
+    .date-input {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .date-input input[type="number"] {
+        width: 60px;
+        text-align: center;
+    }
+    .date-input button {
+        padding: 5px 10px;
+    }
+</style>
+</head>
+<body>
+    <h1>Age Calculator</h1>
+    <form id="ageCalculatorForm">
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" required>
+        <br><br>
+        <input type="submit" value="Calculate Age"><br><br>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('ageCalculatorForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            var dobInput = document.getElementById('dob').value;
+            if (!dobInput) {
+                document.getElementById('result').innerText = "Please select a valid date.";
+                return;
+            }
+            
+            var dob = new Date(dobInput);
+            var today = new Date();
+
+            var years = today.getFullYear() - dob.getFullYear();
+            var months = today.getMonth() - dob.getMonth();
+            var days = today.getDate() - dob.getDate();
+
+            // Adjust years and months if necessary
+            if (months < 0 || (months === 0 && days < 0)) {
+                years--;
+                months += 12;
+            }
+
+            // Adjust days if necessary
+            if (days < 0) {
+                var prevMonthLastDay = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+                days += prevMonthLastDay;
+                months--;
+            }
+
+            document.getElementById('result').innerText = "Your age is: " + years + " years, " + months + " months, and " + days + " days.";
+        });
+    </script>
+</body>
+</html>
